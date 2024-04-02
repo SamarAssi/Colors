@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ColorsList_CoreDataApp: App {
+    let combinedViewModel = CombinedViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(combinedViewModel)
         }
     }
 }
