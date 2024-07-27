@@ -110,13 +110,13 @@ final class CoreDataManager: ObservableObject {
         return saveColor()
     }
     
-    func deleteColor(colors: [ColorEntity], at index: Int) {
+    private func deleteColor(colors: [ColorEntity], at index: Int) {
         guard index < colors.count else { return }
         let color = colors[index]
         container.viewContext.delete(color)
     }
 
-    func deleteSelectedColors(
+    func deleteColors(
         selectedColors: inout [ColorEntity],
         colors: [ColorEntity]
     ) -> [ColorEntity]? {

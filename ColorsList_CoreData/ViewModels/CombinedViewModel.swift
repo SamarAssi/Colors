@@ -86,8 +86,13 @@ extension CombinedViewModel {
 // MARK: Extension for AddColorView methods
 
 extension CombinedViewModel {
-    func addingMode() {
-        if isEmptyFields() {
+    
+    var isEnabledButton: Bool {
+        return !isEmptyFields()
+    }
+    
+    func switchToAddingMode() {
+        guard !isEmptyFields() else {
             return
         }
         colors = CoreDataManager.shared.addColor(
@@ -98,8 +103,8 @@ extension CombinedViewModel {
         ) ?? []
     }
     
-    func editMode() {
-        if isEmptyFields() {
+    func switchToEditMode() {
+        guard !isEmptyFields() else {
             return
         }
         if let colorEntity = colorEntity {
@@ -116,6 +121,12 @@ extension CombinedViewModel {
         if colorEntity != nil {
             colorTitle = colorEntity?.colorTitle ?? ""
             colorDescription = colorEntity?.colorDescription ?? ""
+            color = Color(
+                red: colorEntity?.redValue ?? 0.0,
+                green: colorEntity?.greenValue ?? 0.0,
+                blue: colorEntity?.blueValue ?? 0.0,
+                opacity: colorEntity?.alphaValue ?? 1.0
+            )
         } else {
             colorTitle = ""
             color = Color.yellow
@@ -125,9 +136,9 @@ extension CombinedViewModel {
     
     func processColorEntity() {
         if colorEntity == nil {
-            addingMode()
+            switchToAddingMode()
         } else {
-            editMode()
+            switchToEditMode()
         }
     }
     
@@ -137,9 +148,6 @@ extension CombinedViewModel {
    
     
     func clearColorEntity() {
-//        colorTitle = ""
-//        color = Color.yellow
-//        colorDescription = ""
         colorEntity = nil
     }
 }
@@ -148,7 +156,7 @@ extension CombinedViewModel {
 
 extension CombinedViewModel {
     func deleteSelectedColors() {
-        colors = CoreDataManager.shared.deleteSelectedColors(
+        colors = CoreDataManager.shared.deleteColors(
             selectedColors: &selectedColors,
             colors: colors
         ) ?? []

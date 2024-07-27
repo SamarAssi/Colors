@@ -14,10 +14,6 @@ struct AddNewColorView: View {
     @EnvironmentObject var combinedViewModel: CombinedViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    var isEnabledButton: Bool {
-        return !combinedViewModel.isEmptyFields()
-    }
-    
     // MARK: Body property
     
     var body: some View {
@@ -164,11 +160,11 @@ extension AddNewColorView {
                 .frame(maxWidth: .infinity)
                 .fontWeight(.bold)
                 .font(.headline)
-                .background(isEnabledButton ? Color.black : Color("Tungsten"))
+                .background(combinedViewModel.isEnabledButton ? Color.black : Color("Tungsten"))
                 .foregroundStyle(Color.white)
                 .cornerRadius(25)
         }
-        .disabled(!isEnabledButton)
+        .disabled(!combinedViewModel.isEnabledButton)
     }
     
     func actionButton() {
